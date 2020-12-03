@@ -11,5 +11,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/json_simple-1.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jackson-core-asl-1.9.13"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jackson-mapper-asl-1.9.13"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -42,6 +42,24 @@
 				//alert(  $( ".Depth03:contains('회원정보조회')" ) );
 		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/user/listUser");
 			}); 
+			
+		 	$( ".Depth03:contains('판매상품등록')" ).on("click" , function() {
+				//Debug..
+				//alert(  $( ".Depth03:contains('판매상품등록')" ) );
+		 		$(self.parent.frames["rightFrame"].document.location).attr("href","/product/addProduct");
+			}); 
+		 	
+			$( ".Depth03:contains('관리')" ).on("click" , function() {
+				//Debug..
+				//alert(  $( ".Depth03:contains('판매상품관리')" ) );
+		 		$(self.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
+			}); 
+			
+			$( ".Depth03:contains('검색')" ).on("click" , function() {
+				//Debug..
+				//alert(  $( ".Depth03:contains('판매상품검색')" ) );
+		 		$(self.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=search");
+			}); 
 		});	
 		 
 	</script>
@@ -93,12 +111,13 @@
 			<table  border="0" cellspacing="0" cellpadding="0" width="159">
 				<tr>
 					<td class="Depth03">
-						<a href="../product/addProductView.jsp;" target="rightFrame">판매상품등록</a>
+					<!-- <a href="/product/addProduct" target="rightFrame">판매상품등록</a> -->	판매상품등록
 					</td>
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listProduct.do?menu=manage"  target="rightFrame">판매상품관리</a>
+					<!--  	<a href="/product/listProduct?menu=manage"  target="rightFrame">판매상품관리</a>-->
+					판매상품관리
 					</td>
 				</tr>
 				<tr>
@@ -115,14 +134,15 @@
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
 			<tr>
 				<td class="Depth03">
-					<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색</a>
+					<!--  <a href="/product/listProduct?menu=search" target="rightFrame">상 품 검 색</a>-->
+					상품검색
 				</td>
 			</tr>
 			
 			<c:if test="${ !empty user && user.role == 'user'}">
 			<tr>
 				<td class="Depth03">
-					<a href="/listPurchase.do"  target="rightFrame">구매이력조회</a>
+					<a href="/purchase/listPurchase"  target="rightFrame">구매이력조회</a>
 				</td>
 			</tr>
 			</c:if>

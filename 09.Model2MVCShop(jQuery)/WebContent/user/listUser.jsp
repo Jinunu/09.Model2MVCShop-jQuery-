@@ -62,6 +62,8 @@
 			//console.log ( $(".ct_list_pop:nth-child(5)" ).html() ); 
 			//console.log ( $(".ct_list_pop:nth-child(6)" ).html() ); //==> ok
 			//console.log ( $(".ct_list_pop:nth-child(7)" ).html() ); 
+			//console.log ( $(".ct_list_pop:nth-child(10)" ).html() ); 
+			//console.log ( $(".ct_list_pop:nth-child(14)" ).html() ); 
 		});	
 	</script>		
 	
