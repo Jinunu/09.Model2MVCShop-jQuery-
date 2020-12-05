@@ -1,20 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- 
-<%@ page import="com.model2.mvc.service.product.vo.*" %>
-<%@ page import="com.model2.mvc.service.product.vo.ProductVO" %>
-
-<%
-	ProductVO vo=(ProductVO)session.getAttribute("vo");
- 	//String menu = (String)request.getAttribute("menu");
-	String menu = (String)session.getAttribute("menu");
-	System.out.println("read jsp의 세션 "+menu);
-	System.out.println("vo의 이름 "+vo.getProdName());
-	
-	
-%>
---%>
 
 <html>
 <head>
@@ -23,7 +9,25 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 </head>
-
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$("td.ct_btn01:contains('이전')").on("click", function() {
+			history.go(-1);
+		});
+		
+		$("td.ct_btn01:contains('확인')").on("click", function() {
+			self.location = "/product/listProduct?menu=manage"
+		});
+		
+		$("td.ct_btn01:contains('구매')").on("click", function() {
+			self.location = "/purchase/addPurchase?prodNo=${product.prodNo}"
+		});
+		
+	})
+	
+	</script>
+	
 <body bgcolor="#ffffff" text="#000000">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
@@ -135,9 +139,8 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						
-						<a href="javascript:history.go(-1);">이전</a>
-						
+						<!-- <a href="javascript:history.go(-1);">이전</a> -->
+						이전
 					</td>
 					
 					
@@ -155,10 +158,11 @@
 					
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
 						<c:if test="${menu =='manage' }">
-						<a href="/product/listProduct?menu=manage">확인</a>
-						</c:if>
+						<!-- <a href="/product/listProduct?menu=manage">확인</a> -->		
+						확인				</c:if>
 						<c:if test="${menu=='search' and product.proTranCode==null }">
-						<a href="/purchase/addPurchase?prodNo=${product.prodNo}">구매</a>
+						<!-- <a href="/purchase/addPurchase?prodNo=${product.prodNo}">구매</a>-->	
+						구매
 						
 					</td>
 					

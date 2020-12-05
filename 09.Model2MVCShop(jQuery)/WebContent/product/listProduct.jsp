@@ -13,11 +13,34 @@
 <script type="text/javascript">
 //검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 function fncGetProductList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
+	//document.getElementById("currentPage").value = currentPage;
+	$("input[name='currentPage']").val(currentPage);
+   	//document.detailForm.submit();		
+   	$('form').attr('method',"POST").attr("action","/product/listProduct").submit();
 }
 
-//최종적으로 .submit90을 호출 
+$(function() {
+	$("td.ct_btn01:contains('검색')").on("click", function() {
+		fncGetProductList(1);
+	});
+	$("#searchKeyword").on("keydown", function(event) {
+		//alert(event.keyCode);
+		if(event.keyCode =='13'){
+			fncGetProductList(1);
+		}
+		
+	})
+	$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
+		self.location ="/product/getProduct?prodNo="+$(this).find("input[name='prodNo']").val();
+		//alert($(this).find("input[name='prodNo']").val());
+});
+
+	$( "#배송하기" ).on("click" , function() {
+		self.location ="/product/getProduct?prodNo="+$(this).find("input[name='prodNo']").val();
+		alert("??"+$(this).find("input[name='prodNo']").val());
+});
+	
+});
 
 </script>
 </head>
@@ -26,7 +49,9 @@ function fncGetProductList(currentPage) {
 
 <div style="width:98%; margin-left:10px;">
 														
-<form name="detailForm" action="/product/listProduct?menu=${menu}" method="post">
+<form name="detailForm" >
+
+<input type="hidden"  name="menu" value=${menu} />
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -73,10 +98,26 @@ function fncGetProductList(currentPage) {
 					<option value="3" ${search.searchCondition==3 ? "selected" : "" }>높은가격순</option>
 			</select>
 			
-			<input 	type="text" name="searchKeyword"  value="${! empty search.searchKeyword ? search.searchKeyword : ""}" 
-							class="ct_input_g" style="width:200px; height:19px" >
-							<button id="search" onclick="javascript:fncGetProductList('1');">검색</button>
-		</td>
+			<input 	type="text" name="searchKeyword"  id="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword : ""}" 
+							class="ct_input_g" style="width:200px; height:19px"  >
+							</td>
+			<td align="right" width="70">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+						<!--  <button id="search" onclick="javascript:fncGetProductList('1');">검색</button>-->
+						검색
+					</td>
+							
+							
+							
+							
+							
+							
+							
+						
+		
 	
 					
 						
@@ -120,10 +161,13 @@ function fncGetProductList(currentPage) {
 	<c:forEach var="product" items="${list}">
 	<c:set var="i" value="${i+1 }"/>
 	<tr class="ct_list_pop">
-			<td align="center">${ i }</td>
+			<td align="center">${ i }
+			<input type="hidden" name="prodNo" value="${product.prodNo }"> </td>
 		<td></td>
 		<td align="left">
-			<a href="/product/getProduct?prodNo=${product.prodNo }&menu=${menu}">${product.prodName}</a>
+			<!--  <a href="/product/getProduct?prodNo=${product.prodNo }&menu=${menu}">${product.prodName}</a>-->
+		${product.prodName}
+		
 		</td>
 		<td></td>
 		<td align="left">${product.price}</td>
@@ -146,7 +190,10 @@ function fncGetProductList(currentPage) {
 		<td align="left">판매중
 		</c:if>
 		<c:if test="${product.proTranCode=='0  '}">
-		<td align="left">구매완료 <a href="/purchase/updateTranCode?tranCode=${product.proTranCode}&prodNo=${product.prodNo}">배송하기</a>
+		<td align="left"> 
+		<!--  <a href="/purchase/updateTranCode?tranCode=${product.proTranCode}&prodNo=${product.prodNo}">배송하기</a>-->
+		<div align="letf" >구매완료</div> 
+		<div align="letf" id="배송하기"><input type="hidden" name="prodNo" value="${product.prodNo }">(배송하기)</div> 
 		</c:if>
 		<c:if test="${product.proTranCode=='1  '}">
 			<td align="left">배송중
