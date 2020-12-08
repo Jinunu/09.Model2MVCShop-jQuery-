@@ -7,16 +7,41 @@
 <head>
 <title>구매 목록조회</title>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+
 function fncGetPurchaseList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
+	
+	//document.getElementById("currentPage").value = currentPage;
+	$("#currentPage").val(currentPage)
+	$("form").attr("method","POST").attr("action","/purchase/listPurchase").submit();
+   	//document.detailForm.submit();		
 }
+
+$(function() {
+	$(".ct_list_pop td:nth-child(1)").on("click", function() {
+		//alert($(this).find("input[name='tranNo']").val())
+		self.location = "/purchase/getPurchase?tranNo="+$(this).find("input[name='tranNo']").val();
+	});
+	
+	$(".ct_list_pop td:nth-child(3)").on("click", function() {
+		//alert($(this).find("input[name='buyerId']").val())
+		self.location = "/user/getUser?userId="+$(this).find("input[name='buyerId']").val();
+	});
+	
+	$("#물건도착").on("click", function() {
+		alert($(this).find("input[name='tranCode']").val()+":"+$(this).find("input[name='prodNo']").val())
+		self.location = "/purchase/updateTranCode?tranCode="+$(this).find("input[name='tranCode']").val()+"&prodNo="+$(this).find("input[name='prodNo']").val();
+	});
+	
+});
 </script>
 </head>
 <body bgcolor="#ffffff" text="#000000">
 <div style="width: 98%; margin-left: 10px;">
-<form name="detailForm" action="/purchase/listPurchase" method="post">
+
+<form name="detailForm" >
+
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 <tr>
 <td width="15" height="37"><img src="/images/ct_ttl_img01.gif"width="15" height="37"></td>
@@ -62,12 +87,16 @@ function fncGetPurchaseList(currentPage) {
 <c:forEach var="purchase" items="${list}">
 <c:set var="i" value="${i+1 }"/>
 <tr class="ct_list_pop">
-<td align="center">
-<a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${i }</a>
+<td align="center" >
+${i }
+<%-- <a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${i }</a> --%>
+<input type="hidden" name="tranNo" value="${purchase.tranNo}">
 </td>
 <td></td>
 <td align="left">
-<a href="/user/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
+${purchase.buyer.userId}
+<!-- <a href="/user/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a> -->
+<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
 </td>
 <td></td>
 <td align="left">${user.userName}</td>
@@ -93,7 +122,12 @@ function fncGetPurchaseList(currentPage) {
 </c:choose>
 
 <c:if test="${ !empty purchase.tranCode && purchase.tranCode eq '1  ' }">
-<td align="left"><a href="/purchase/updateTranCode?tranCode=${purchase.tranCode}&prodNo=${purchase.purchaseProd.prodNo}">물건도착</a></td>
+<td align="left" id="물건도착">
+<%-- <a href="/purchase/updateTranCode?tranCode=${purchase.tranCode}&prodNo=${purchase.purchaseProd.prodNo}">물건도착</a> --%>
+<input type="hidden" name="tranCode" value="${purchase.tranCode}">
+<input type="hidden" name="prodNo" value="${purchase.purchaseProd.prodNo}">
+물건도착
+</td>
 </c:if>
 
 </tr>

@@ -36,8 +36,7 @@ $(function() {
 });
 
 	$( "#배송하기" ).on("click" , function() {
-		self.location ="/product/getProduct?prodNo="+$(this).find("input[name='prodNo']").val();
-		alert("??"+$(this).find("input[name='prodNo']").val());
+		self.location ="/purchase/updateTranCode?tranCode="+$(this).find("input[name='proTranCode']").val()+"&prodNo="+$(this).find("input[name='prodNo']").val()
 });
 	
 });
@@ -193,7 +192,9 @@ $(function() {
 		<td align="left"> 
 		<!--  <a href="/purchase/updateTranCode?tranCode=${product.proTranCode}&prodNo=${product.prodNo}">배송하기</a>-->
 		<div align="letf" >구매완료</div> 
-		<div align="letf" id="배송하기"><input type="hidden" name="prodNo" value="${product.prodNo }">(배송하기)</div> 
+		<div align="letf" id="배송하기"><input type="hidden" name="prodNo" value="${product.prodNo }">
+		<input type="hidden" name="proTranCode" value="${product.proTranCode }">
+		(배송하기)</div> 
 		</c:if>
 		<c:if test="${product.proTranCode=='1  '}">
 			<td align="left">배송중

@@ -37,13 +37,37 @@
 		window.onload = function(){
 			document.getElementById("userId").focus();
 		}========================================	*/
+		function fncLogin() {
+			
+
+			var id=$("input:text").val();
+			var pw=$("input:password").val();
+			
+			if(id == null || id.length <1) {
+				alert('ID 를 입력하지 않으셨습니다.');
+				$("input:text").focus();
+				return;
+			}
+			
+			if(pw == null || pw.length <1) {
+				alert('패스워드를 입력하지 않으셨습니다.');
+				$("input:password").focus();
+				return;
+			}
+			
+			$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+			
+			
+		}
+		
+		
 		$( function() {
 			
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$("#userId").focus();
 			
 			//==> 추가된부분 : "Login"  Event 연결
-			$("img[src='/images/btn_login.gif']").on("click" , function() {
+		/* 	$("img[src='/images/btn_login.gif']").on("click" , function() {
 
 				var id=$("input:text").val();
 				var pw=$("input:password").val();
@@ -66,6 +90,20 @@
 			    //$("form").submit();
 				//==> 위의 4실행문과 같은의미			    
 				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+				
+			}); */
+			
+			$("img[src='/images/btn_login.gif']").on("click" , function() {
+			
+				
+				fncLogin();
+			});
+			
+			$("input[name='password']").on("keydown" , function(event) {
+				if(event.keyCode=="13"){
+					fncLogin();
+				}
+			
 				
 			});
 		});

@@ -1,8 +1,9 @@
 package com.model2.mvc.common;
 
+import java.io.Serializable;
 
 //==>리스트화면을 모델링(추상화/캡슐화)한 Bean 
-public class Search {
+public class Search implements Serializable {
 	
 	///Field
 	private int currentPage;
@@ -56,6 +57,14 @@ public class Search {
 	//==> Select Query 시 ROWNUM 시작 값
 	public int getStartRowNum() {
 		return (getCurrentPage()-1)*getPageSize()+1;
+	}
+
+	public void setEndRowNum(int endRowNum) {
+		this.endRowNum = endRowNum;
+	}
+
+	public void setStartRowNum(int startRowNum) {
+		this.startRowNum = startRowNum;
 	}
 
 	@Override

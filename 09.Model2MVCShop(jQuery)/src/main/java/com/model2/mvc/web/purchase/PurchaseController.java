@@ -89,7 +89,7 @@ public class PurchaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "getPurchase", method = RequestMethod.GET)
+	@RequestMapping(value = "getPurchase")
 	public ModelAndView getPurchase(@RequestParam("tranNo") int tranNo) throws Exception{
 		
 		System.out.println("/purchase/getPurchase : GET");

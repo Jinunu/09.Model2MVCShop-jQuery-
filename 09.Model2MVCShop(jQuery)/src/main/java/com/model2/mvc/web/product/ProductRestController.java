@@ -1,34 +1,23 @@
 package com.model2.mvc.web.product;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.portlet.multipart.MultipartActionRequest;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.User;
@@ -89,31 +78,39 @@ public class ProductRestController {
 		
 		return productService.getProduct(prodNo);
 	}
-	
 	@RequestMapping( value="json/getProductList" )
 	public Map getProductList( @RequestBody(required = false ) JSONObject jsonObject) throws Exception{
 		
 		System.out.println("/product/json/getProductList : GET ,POST");
-		System.out.println(jsonObject);
+		System.out.println("Not toString : "+jsonObject.get("search"));
+		System.out.println(jsonObject.get("search").toString());
+		
+		
+		/*
+		 * Search search1 = (Search)(jsonObject.get("search"));
+		 * System.out.println(search1);
+		 */
 		ObjectMapper objectMapper = new ObjectMapper();
-		Search search = objectMapper.readValue(jsonObject.get("search").toString(),Search.class );
+		System.out.println("jssss"+jsonObject.get("search")); // jsobject get하면 오브젝트가온다
+		String jsonValue = objectMapper.writeValueAsString(jsonObject.get("search"));// mapper.writeValueAsString을 하면 오브젝트를 json String으로 바꾸어준다
+		System.out.println("jsonValue :: '"+jsonValue+"'");
+		
+		Search search = objectMapper.readValue(jsonValue, Search.class );//제이슨형태{key : value, key : value}를 바인딩해준다.
 		System.out.println("서치는"+search);
-		search.setPageSize(pageSize);
-		int prodNo = (Integer)jsonObject.get("prodNo");
+		
 		System.out.println(search);
-		System.out.println(prodNo);
 		
-			if(search.getSearchKeyword().equals("null") || search.getSearchCondition()==null) {
-				search.setSearchCondition("");
-				search.setSearchKeyword("");
-			}
-		
-		
+		/*if(search.getSearchCondition().equals("null") || search.getSearchCondition()==null) {
+			search.setSearchCondition("");
+		}
+		if (search.getSearchKeyword().equals("null") || search.getSearchKeyword()==null) {
+			search.setSearchKeyword("");
+		}	*/	
 		Map map = new HashMap<String, Object>();
 		
 		map =productService.getProductList(search); //map으로 담겨온다 List<User> user =(User)map.get("list") user[0],user[1],user[2]
 		 List list = new ArrayList();
-		 list = (List<User>) map.get("list");
+		 list = (List<Product>) map.get("list");
 		 System.out.println("리스트는 ? :"+list.toString());
 		 Map returnMap = new HashMap<String, Object>();
 		 
@@ -122,6 +119,17 @@ public class ProductRestController {
 		//Business Logic
 		return returnMap;
 		}
+	
+	@RequestMapping(value =  "json/updateProduct")
+	public Product updateProduct(@RequestBody Product product) throws Exception{
+		
+		System.out.println("json/updateProduct : POST" );
+		
+		productService.updateProduct(product);
+		
+		
+		return productService.getProduct(product.getProdNo()) ;
+	}
 		
 	}
 	
